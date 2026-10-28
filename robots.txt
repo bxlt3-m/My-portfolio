@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mohamed-eight-mu.vercel.app/sitemap.xml

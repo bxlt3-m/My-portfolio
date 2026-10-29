@@ -1,9 +1,3 @@
-<div align="center">
-
-<img src="docs/banner.svg" alt="Mohamed Farah. Student and web creator." width="100%">
-
-<br><br>
-
 <a href="https://farah-mohamed-site.vercel.app/"><b>View the live site</b></a>
 &nbsp;&nbsp;·&nbsp;&nbsp;
 <a href="#preview">Preview</a>

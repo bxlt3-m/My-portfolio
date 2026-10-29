@@ -12,6 +12,10 @@
 
 <br><br>
 
+<img src="docs/stack.svg" alt="HTML, CSS, JavaScript, GSAP, Lenis, Vercel" height="34">
+
+<br><br>
+
 <div align="center">
   <img src="docs/demo.webp" alt="Scrolling through the whole portfolio, top to bottom" width="760">
 </div>

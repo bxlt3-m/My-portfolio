@@ -12,7 +12,9 @@
 
 <br><br>
 
-<img src="docs/stack.svg" alt="HTML, CSS, JavaScript, GSAP, Lenis, Vercel" height="34">
+<div align="center">
+  <img src="docs/stack.svg" alt="HTML, CSS, JavaScript, GSAP, Lenis, Vercel" height="34">
+</div>
 
 <br><br>
 

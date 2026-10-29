@@ -12,8 +12,8 @@
 
 <br><br>
 
-<img src="docs/demo.webp" alt="Scrolling through the whole portfolio, top to bottom" width="760">
-
+<div align="center">
+  <img src="docs/demo.webp" alt="Scrolling through the whole portfolio, top to bottom" width="760">
 </div>
 
 <br>

@@ -1,3 +1,5 @@
+<div align="center">
+
 <a href="https://farah-mohamed-site.vercel.app/"><b>View the live site</b></a>
 &nbsp;&nbsp;·&nbsp;&nbsp;
 <a href="#preview">Preview</a>
@@ -6,9 +8,7 @@
 &nbsp;&nbsp;·&nbsp;&nbsp;
 <a href="#copyright-and-license">License</a>
 
-<br><br>
-
-<img src="docs/stack.svg" alt="HTML, CSS, JavaScript, GSAP, Lenis, Vercel" height="34">
+</div>
 
 <br><br>
 

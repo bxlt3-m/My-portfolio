@@ -1,0 +1,24 @@
+/* Every breakpoint and media feature the site uses, named once.
+   Plain CSS can't put a variable inside @media, so these are @custom-media: the build
+   (lightningcss, see package.json) expands them into normal media queries.
+   Components write  @media (--phone) { ... }  and never a raw pixel value.
+   Change a breakpoint here and it changes everywhere. */
+
+/* width */
+@custom-media --tiny (max-width: 359px); /* small phones, the 280px fold */
+@custom-media --phone (max-width: 600px);
+@custom-media --tablet-down (max-width: 900px);
+@custom-media --desktop (min-width: 901px);
+@custom-media --wide (min-width: 1600px); /* root font-size starts growing here */
+
+/* width + height: laptops around 660-800px tall */
+@custom-media --desktop-short (min-width: 901px) and (max-height: 800px);
+
+/* input: hover styles only for a real mouse, so touch screens don't get stuck hover states */
+@custom-media --mouse (hover: hover) and (pointer: fine);
+
+/* user preferences */
+@custom-media --reduced-motion (prefers-reduced-motion: reduce);
+@custom-media --reduced-transparency (prefers-reduced-transparency: reduce);
+@custom-media --more-contrast (prefers-contrast: more);
+@custom-media --forced-colors (forced-colors: active);

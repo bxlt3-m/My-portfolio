@@ -1,0 +1,328 @@
+/* Screenshot galleries, stage layers (stage.js wipes between them with clip-path) and the
+   lightbox <dialog>. */
+
+.screenshot-gallery {
+  background: #15171c;
+  border: 1px solid #3d4045;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.screenshot-topline {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.2rem 1.5rem;
+  color: var(--shot-text);
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  border-bottom: 1px solid var(--shot-line);
+  font-variant-numeric: tabular-nums;
+}
+.screenshot-main {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: var(--shot-bg);
+  overflow: hidden;
+  cursor: zoom-in;
+}
+.screenshot-main {
+  aspect-ratio: 1.65;
+}
+.layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+}
+.layer.on {
+  visibility: visible;
+}
+.layer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #090e18;
+}
+.bot-gallery {
+  width: 100%;
+  max-width: 35rem;
+}
+.bot-stage {
+  aspect-ratio: 1;
+  cursor: default;
+}
+.bot-stage .layer + .layer {
+  background: #18191d;
+}
+.bot-stage .layer + .layer img {
+  object-fit: contain;
+  background: #18191d;
+}
+.screenshot-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1.5rem;
+  gap: 1rem;
+  border-top: 1px solid var(--shot-line);
+}
+.shot-tabs {
+  display: flex;
+  gap: 1.5rem;
+}
+.shot-tabs button {
+  position: relative;
+  min-height: 3rem;
+  padding: 0.5rem 0;
+  font-size: 0.875rem;
+  color: var(--shot-text);
+  white-space: nowrap;
+  transition: color 160ms ease;
+}
+.shot-tabs button span {
+  font-size: 0.6875rem;
+  margin-right: 0.4rem;
+  color: var(--shot-muted);
+  font-variant-numeric: tabular-nums;
+}
+.shot-tabs button[aria-selected='true'] {
+  color: #fff;
+}
+.shot-tabs button:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--red-soft);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 240ms var(--ease);
+}
+.shot-tabs button[aria-selected='true']:after {
+  transform: scaleX(1);
+}
+.expand-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 2.5rem;
+  padding: 0 1rem;
+  font-size: 0.8125rem;
+  color: var(--ink);
+  background: var(--white);
+  border-radius: var(--r-pill);
+  transition:
+    background-color 160ms ease,
+    transform 120ms var(--ease);
+}
+.expand-button svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+/* ---- lightbox ----
+   Open/close animates with transitions + @starting-style + allow-discrete (needs a recent
+   browser). Older ones skip that and get the keyframe fallback further down. */
+dialog {
+  position: fixed;
+  border: 1px solid #45474d;
+  background: #12151c;
+  color: #fff;
+  padding: 0;
+  width: min(68.75rem, calc(100vw - 2rem));
+  max-height: calc(100svh - 2rem);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  opacity: 0;
+  scale: 0.96;
+  transition:
+    opacity 200ms var(--ease),
+    scale 200ms var(--ease),
+    overlay 200ms allow-discrete,
+    display 200ms allow-discrete;
+}
+dialog[open] {
+  opacity: 1;
+  scale: 1;
+}
+@starting-style {
+  dialog[open] {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0);
+  -webkit-backdrop-filter: blur(0);
+  backdrop-filter: blur(0);
+  transition:
+    background-color 220ms ease,
+    backdrop-filter 220ms ease,
+    overlay 220ms allow-discrete,
+    display 220ms allow-discrete;
+}
+dialog[open]::backdrop {
+  background: rgba(0, 0, 0, 0.72);
+  -webkit-backdrop-filter: blur(0.625rem);
+  backdrop-filter: blur(0.625rem);
+}
+@starting-style {
+  dialog[open]::backdrop {
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0);
+  }
+}
+
+/* Fallback for browsers without discrete transitions (the pre-2024 ones).
+   The transition above is simply ignored there, so the dialog would pop in with no
+   animation. Plain keyframes run when display flips to block, so they work everywhere. */
+@supports not (transition-behavior: allow-discrete) {
+  dialog[open] {
+    animation: dialog-in 200ms var(--ease) both;
+  }
+  dialog[open]::backdrop {
+    animation: backdrop-in 220ms ease both;
+  }
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+@keyframes backdrop-in {
+  from {
+    background: rgba(0, 0, 0, 0);
+  }
+}
+.lightbox-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1.25rem;
+  gap: 1rem;
+}
+.lightbox-bar p {
+  font-size: 0.875rem;
+}
+.icon-button {
+  display: grid;
+  place-items: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  border-radius: var(--r-pill);
+  transition:
+    background-color 160ms ease,
+    transform 120ms var(--ease);
+}
+.icon-button:active {
+  transform: scale(0.94);
+}
+.lightbox-stage {
+  position: relative;
+  aspect-ratio: 1.65;
+  width: min(100%, calc((100svh - 10.625rem) * 1.65));
+  margin: 0 auto;
+  background: #090e18;
+  overflow: hidden;
+}
+.lightbox-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+}
+.lightbox-controls button {
+  min-height: 2.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--r-pill);
+  transition: background-color 160ms ease;
+}
+.lightbox-controls span {
+  font-size: 0.75rem;
+  color: var(--shot-text);
+  font-variant-numeric: tabular-nums;
+}
+.screenshot-gallery:not(.bot-gallery) {
+  width: 100%;
+  max-width: max(35rem, calc((100svh - 14.5rem) * 1.65));
+  margin-inline: auto;
+}
+
+@media (--mouse) {
+  .shot-tabs button:hover {
+    color: #fff;
+  }
+  .expand-button:hover {
+    background: #fff;
+  }
+  .icon-button:hover,
+  .lightbox-controls button:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+@media (--phone) {
+  .expand-button {
+    display: none;
+  }
+  .screenshot-gallery {
+    border-radius: var(--r-lg);
+  }
+  .screenshot-topline {
+    padding: 0.85rem 1rem;
+    font-size: 0.625rem;
+  }
+  .screenshot-bottom {
+    padding: 0.35rem 0.9rem;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+  }
+  .shot-tabs {
+    gap: 1.1rem;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .shot-tabs button {
+    font-size: 0.8125rem;
+    min-height: 2.75rem;
+  }
+  .shot-tabs button span {
+    font-size: 0.625rem;
+    margin-right: 0.25rem;
+  }
+  .expand-button {
+    margin: 0.15rem 0 0.6rem;
+  }
+  dialog {
+    width: calc(100vw - 1rem);
+  }
+  .lightbox-bar {
+    padding: 0.35rem 0.75rem;
+  }
+  .lightbox-bar p {
+    font-size: 0.75rem;
+  }
+  .lightbox-controls {
+    font-size: 0.8125rem;
+    padding: 0.35rem 0.75rem;
+  }
+}
+
+@media (--more-contrast) {
+  .screenshot-gallery {
+    border-color: #999;
+  }
+}
+
+@media (--desktop) {
+  .bot-gallery {
+    max-width: max(22.5rem, min(32.5rem, calc(100svh - 14.375rem)));
+  }
+}

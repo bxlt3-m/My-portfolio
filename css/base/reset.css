@@ -1,0 +1,174 @@
+/* Resets, element defaults and the accessibility / user-preference media queries. */
+
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--white);
+  font-family:
+    Outfit,
+    system-ui,
+    -apple-system,
+    Arial,
+    sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+h1,
+h2,
+h3 {
+  font-weight: 500;
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+img {
+  max-width: 100%;
+}
+[hidden] {
+  display: none !important;
+}
+:focus-visible {
+  outline: 2px solid var(--red-strong);
+  outline-offset: 0.25rem;
+  border-radius: 0.25rem;
+}
+::selection {
+  background: var(--red-strong);
+  color: #fff;
+}
+::placeholder {
+  color: inherit;
+}
+a svg,
+button svg {
+  transition: transform 220ms var(--ease);
+}
+html.lenis {
+  scroll-behavior: auto !important;
+}
+
+@media (--phone) {
+  html {
+    scroll-padding-top: 5.25rem;
+  }
+  body {
+    font-size: 1rem;
+  }
+}
+
+@media (--reduced-motion) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *:before,
+  *:after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+}
+
+@media (--mouse) {
+  html {
+    scrollbar-gutter: stable;
+  }
+  :where(html, dialog) {
+    scrollbar-width: thin;
+    scrollbar-color: var(--red) var(--ink);
+  }
+  @supports selector(::-webkit-scrollbar) {
+    :where(html, dialog) {
+      scrollbar-width: auto;
+      scrollbar-color: auto;
+    }
+    :where(html, dialog)::-webkit-scrollbar {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+    :where(html, dialog)::-webkit-scrollbar-track {
+      background: var(--ink);
+    }
+    :where(html, dialog)::-webkit-scrollbar-thumb {
+      min-height: 3.5rem;
+      background: var(--red-strong);
+      border: 0.1875rem solid var(--ink);
+      border-radius: 62.4375rem;
+    }
+    :where(html, dialog)::-webkit-scrollbar-thumb:hover {
+      background: var(--red-soft);
+    }
+    :where(html, dialog)::-webkit-scrollbar-thumb:active {
+      background: var(--white);
+    }
+    :where(html, dialog)::-webkit-scrollbar-corner {
+      background: var(--ink);
+    }
+    :where(html, dialog)::-webkit-scrollbar-button {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+  }
+}
+
+@media (--forced-colors) {
+  :where(html, dialog) {
+    scrollbar-color: auto;
+  }
+  :where(html, dialog)::-webkit-scrollbar-thumb {
+    background: CanvasText;
+    border-color: Canvas;
+  }
+  :where(html, dialog)::-webkit-scrollbar-track,
+  :where(html, dialog)::-webkit-scrollbar-corner {
+    background: Canvas;
+  }
+}

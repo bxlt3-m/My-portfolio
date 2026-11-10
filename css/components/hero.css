@@ -1,0 +1,324 @@
+/* Hero + the project index strip right under it.
+   Every child is absolutely placed on purpose (the name sits behind the figure), so the
+   hero can't size itself from its content. It uses a height from the viewport instead.
+   svh, not vh/dvh: svh is the small viewport and doesn't change when the mobile address
+   bar slides away, so nothing re-layouts while scrolling. */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--paper);
+  color: var(--ink);
+  height: clamp(var(--hero-min), calc(100svh - var(--strip) - var(--index-h)), var(--hero-max));
+}
+/* Huge name behind the figure. nowrap + clamp keeps it on one line from 280px up. */
+.hero-name {
+  position: absolute;
+  z-index: var(--z-hero-name);
+  top: max(27%, calc(var(--sc-bottom) + 1.75rem - 0.12em));
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: clamp(10rem, 28.4vw, 27rem);
+  font-weight: 600;
+  letter-spacing: -0.052em;
+  line-height: 0.9;
+  white-space: nowrap;
+  padding-right: 0.06em;
+  user-select: none;
+}
+.hero-name .ch {
+  display: inline-block;
+}
+.hero-figure {
+  position: absolute;
+  height: calc(100% - 3.5rem);
+  max-height: 45rem;
+  width: auto;
+  aspect-ratio: 2/3;
+  left: calc(50% + clamp(0px, 6.4vw, 6.875rem));
+  bottom: 1rem;
+  translate: -50% 0;
+  z-index: var(--z-hero-figure);
+  pointer-events: none;
+}
+.hero-figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: grayscale(1);
+  display: block;
+}
+.hero-side-copy {
+  position: absolute;
+  left: var(--edge);
+  top: clamp(6.25rem, 15%, 8.25rem);
+  z-index: var(--z-hero-copy);
+  max-width: 14.375rem;
+}
+.hero-side-copy .eyebrow {
+  letter-spacing: 0.2em;
+  margin-bottom: 0.85rem;
+}
+.hero-side-copy > p:not(.eyebrow) {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+.small-line {
+  display: block;
+  height: 1px;
+  width: 2rem;
+  background: var(--ink-soft);
+  margin-top: 1rem;
+}
+.hero-actions {
+  position: absolute;
+  left: var(--edge);
+  bottom: 4.25rem;
+  z-index: var(--z-hero-actions);
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+.hero-side-note {
+  position: absolute;
+  right: var(--edge);
+  top: clamp(7.25rem, 17%, 9.375rem);
+  z-index: var(--z-hero-copy);
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+.hero-side-note p {
+  font-size: 0.6875rem;
+  line-height: 1.8;
+  letter-spacing: 0.13em;
+}
+.red-tick {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  background: var(--red);
+  margin-top: 0.3125rem;
+  border-radius: 50%;
+}
+.hero-bottom {
+  position: absolute;
+  left: var(--edge);
+  right: var(--edge);
+  bottom: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  z-index: var(--z-hero-bottom);
+}
+.project-index {
+  background: var(--surface-deep);
+  min-height: var(--index-h);
+}
+.index-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  max-width: none;
+  padding-inline: var(--edge);
+  margin: 0;
+}
+.index-grid > a {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  padding: 2.25rem 2.5rem 2.25rem 0;
+  transition: background-color 200ms ease;
+}
+.index-grid > a + a {
+  border-left: 1px solid var(--line-dark);
+  padding-left: 2.5rem;
+  padding-right: 0;
+}
+.index-number {
+  font-size: 0.875rem;
+  color: var(--red-soft);
+  align-self: flex-start;
+  padding-top: 0.2rem;
+  font-variant-numeric: tabular-nums;
+}
+.index-grid small {
+  display: block;
+  color: var(--on-dark-muted);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  margin-bottom: 0.4rem;
+}
+.index-grid strong {
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+.index-grid > a > svg {
+  margin-left: auto;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.hero-name .ch {
+  animation: letter-in 950ms var(--ease) calc(120ms + var(--i) * 60ms) both;
+}
+.hero-figure img {
+  animation: figure-in 1200ms var(--ease) 380ms both;
+}
+.hero-side-copy {
+  animation: fade-up 900ms var(--ease) 650ms both;
+}
+.hero-side-note {
+  animation: fade-up 900ms var(--ease) 780ms both;
+}
+.hero-actions {
+  animation: fade-up 900ms var(--ease) 880ms both;
+}
+.hero-bottom {
+  animation: fade-up 900ms var(--ease) 1000ms both;
+}
+
+@media (--mouse) {
+  .hero .text-link:hover {
+    color: var(--red-strong);
+  }
+}
+
+@media (--tablet-down) {
+  .hero-actions {
+    gap: 1rem;
+  }
+  .hero-side-copy {
+    max-width: 11.875rem;
+  }
+  .hero-actions .text-link {
+    display: none;
+  }
+  .hero-figure {
+    left: calc(50% + 5vw);
+  }
+  .hero-name {
+    top: max(31%, calc(var(--sc-bottom) + 1.75rem - 0.12em));
+  }
+}
+
+@media (--phone) {
+  .hero {
+    --hero-min: 40rem;
+    --hero-max: 47.5rem;
+  }
+  .hero-side-copy {
+    top: 5.25rem;
+    max-width: 11.875rem;
+  }
+  .hero-side-copy > p:not(.eyebrow) {
+    font-size: 0.875rem;
+  }
+  .small-line {
+    margin-top: 0.8rem;
+    width: 1.625rem;
+  }
+  .hero-name {
+    font-size: 31vw;
+    top: 34%;
+    letter-spacing: -0.055em;
+  }
+  .hero-figure {
+    height: min(28.125rem, 62%);
+    left: 67%;
+    bottom: 5rem;
+  }
+  .hero-side-note {
+    display: none;
+  }
+  .hero-actions {
+    bottom: 5.25rem;
+  }
+  .hero-actions .button {
+    font-size: 0.875rem;
+    min-height: 2.875rem;
+    padding: 0.7rem 1.2rem;
+    gap: 1.25rem;
+  }
+  .hero-bottom {
+    bottom: 1rem;
+    font-size: 0.625rem;
+    letter-spacing: 0.06em;
+  }
+  .index-grid > a {
+    gap: 1rem;
+    padding: 1.5rem 1rem 1.5rem 0;
+  }
+  .index-grid > a + a {
+    padding-left: 1rem;
+  }
+  .index-number {
+    font-size: 0.75rem;
+  }
+  .index-grid small {
+    font-size: 0.625rem;
+    letter-spacing: 0.07em;
+    margin-bottom: 0.3rem;
+  }
+  .index-grid strong {
+    font-size: 1.05rem;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    display: block;
+  }
+  .index-grid > a > svg {
+    display: none;
+  }
+}
+
+@media (--reduced-motion) {
+  .hero-name .ch,
+  .hero-figure img {
+    animation: none;
+  }
+  .hero-name,
+  .hero-figure img {
+    transform: none !important;
+  }
+  .hero-side-copy,
+  .hero-side-note,
+  .hero-actions,
+  .hero-bottom,
+  .glass-bar {
+    animation: none;
+  }
+}
+
+@media (--more-contrast) {
+  .hero-bottom,
+  .principles span,
+  .about-copy > p + p {
+    color: var(--ink);
+  }
+}
+
+@media (--desktop-short) {
+  .index-grid > a {
+    padding-block: 1.5rem;
+  }
+  .hero {
+    --hero-min: 31.25rem;
+    --hero-max: 100svh; /* no cap on short desktops, the viewport is the limit */
+  }
+  .hero-name {
+    font-size: clamp(8rem, min(28.4vw, calc((100svh - var(--strip) - var(--index-h)) * 0.44)), 27rem);
+  }
+  .hero-actions {
+    bottom: 3.25rem;
+  }
+}
+
+@media (--tiny) {
+  .hero-name {
+    font-size: 28vw;
+  }
+}

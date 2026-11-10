@@ -1,0 +1,100 @@
+/* Tokens only: fonts, colours, spacing, z-index scale. No selectors other than :root.
+   Everything is rem on purpose, the root font-size is what scales the layout on big
+   screens (bottom of this file). Don't switch values back to px. */
+
+@font-face {
+  font-family: Outfit;
+  src: url('/assets/outfit-400.woff') format('woff');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: Outfit;
+  src: url('/assets/outfit-500.woff') format('woff');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: Outfit;
+  src: url('/assets/outfit-600.woff') format('woff');
+  font-weight: 600;
+  font-display: swap;
+}
+:root {
+  --paper: #efeeeb;
+  --ink: #141414;
+  --surface: #202123;
+  --surface-deep: #101010;
+  --shot-bg: #0b101a;
+  --white: #f4f3ef;
+  --red: #e43a3e;
+  --red-strong: #c52b30;
+  --red-soft: #f2565a;
+  --ink-soft: #575754;
+  --on-dark-soft: #c0c0bc;
+  --on-dark-muted: #a9a9a7;
+  --shot-text: #aeb0b5;
+  --shot-muted: #8a8e98;
+  --line-dark: #424345;
+  --line-faint: #2c2d2f;
+  --line-light: rgba(20, 20, 20, 0.15);
+  --shot-line: #34373e;
+  --r-sm: 0.5rem;
+  --r-lg: 1.125rem;
+  --r-pill: 62.4375rem;
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-io: cubic-bezier(0.77, 0, 0.175, 1);
+  --gutter: clamp(1.25rem, 5vw, 5rem);
+  --max: 77.5rem;
+  --edge: max(var(--gutter), calc((100% - var(--max)) / 2));
+  --section: clamp(5rem, 9vw, 9rem);
+  --strip: 1.75rem;
+  --index-h: 8.5625rem;
+  --sc-bottom: calc(clamp(6.25rem, 15%, 8.25rem) + 7.875rem);
+  font-size: 1rem;
+
+  --hero-min: 43.75rem;
+  --hero-max: 48.75rem;
+
+  /* Stacking order. Page-level values are spaced out on purpose so a new layer
+     can slide in between. The hero ones only matter inside .hero (it is isolated). */
+  --z-behind: -1; /* decorative ::before layers, always inside an isolated parent */
+  --z-sheet: 1; /* about/contact sections sliding over the one above */
+  --z-header: 40;
+  --z-progress: 60;
+  --z-toast: 60; /* same level as the progress bar, they never overlap */
+  --z-skip: 100; /* skip link must beat everything */
+  --z-hero-name: 1;
+  --z-hero-figure: 2;
+  --z-hero-copy: 3;
+  --z-hero-actions: 4;
+  --z-hero-bottom: 5;
+  /* <dialog> uses the top layer, so it has no z-index here */
+}
+
+@media (--phone) {
+  :root {
+    --gutter: 1.25rem;
+    --section: 4.5rem;
+    --strip: 1.5rem;
+    --index-h: 6.5625rem;
+  }
+}
+
+@media (--desktop-short) {
+  :root {
+    --index-h: 6.625rem;
+  }
+}
+
+@media (--tiny) {
+  :root {
+    font-size: 14px;
+  }
+}
+
+@media (--wide) {
+  :root {
+    font-size: min(34px, calc(16px + (100vw - 1440px) * 0.0067));
+  }
+}

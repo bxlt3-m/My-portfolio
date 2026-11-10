@@ -1,0 +1,145 @@
+/* Reveal-on-scroll, intro animations and GPU hints.
+   Everything under .js only applies when scripts run, so the page is fully visible without them. */
+
+.js .reveal {
+  opacity: 0;
+  transform: translate3d(0, 1.5rem, 0);
+  transition:
+    opacity 700ms var(--ease) var(--d, 0ms),
+    transform 800ms var(--ease) var(--d, 0ms);
+}
+.js .reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+.js .fade {
+  opacity: 0;
+  transition: opacity 700ms var(--ease);
+}
+.js .fade.in-view {
+  opacity: 1;
+}
+.js .words .w {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(0.75rem);
+  transform: translate3d(0, var(--ty, 0.5em), 0);
+  transition:
+    opacity 700ms var(--ease) calc(var(--b, 0ms) + var(--i) * 36ms),
+    filter 900ms var(--ease) calc(var(--b, 0ms) + var(--i) * 36ms),
+    transform 900ms var(--ease) calc(var(--b, 0ms) + var(--i) * 36ms);
+}
+.js .words.in-view .w {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+.js .swords .w {
+  display: inline-block;
+  opacity: 0;
+}
+.js .principles > .rule:before {
+  transform: scaleX(0);
+  transition: transform 900ms var(--ease) var(--d, 0ms);
+}
+.js .principles > .rule.in-view:before {
+  transform: scaleX(1);
+}
+@keyframes letter-in {
+  from {
+    opacity: 0;
+    translate: 0 0.22em;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes figure-in {
+  from {
+    opacity: 0;
+    translate: 0 1.75rem;
+    filter: grayscale(1) blur(0.625rem);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    filter: grayscale(1) blur(0);
+  }
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    translate: 0 0.875rem;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes bar-in {
+  from {
+    opacity: 0;
+    translate: 0 -14px;
+    scale: 0.97;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+.js .stack .chip {
+  opacity: 0;
+  transform: translate3d(0, 0.625rem, 0);
+  transition:
+    opacity 600ms var(--ease) calc(var(--d, 0ms) + var(--i) * 45ms),
+    transform 700ms var(--ease) calc(var(--d, 0ms) + var(--i) * 45ms),
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+.js .stack.in-view .chip {
+  opacity: 1;
+  transform: none;
+}
+
+@media (--reduced-motion) {
+  .js .swords .w {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .js .reveal {
+    transform: none;
+    transition: opacity 300ms ease !important;
+  }
+  .js .words .w {
+    filter: none;
+    transform: none;
+    transition: opacity 300ms ease !important;
+  }
+  .js .swords .w {
+    filter: none !important;
+    transform: none !important;
+  }
+  .js .stack .chip {
+    transform: none;
+    transition:
+      opacity 300ms ease,
+      background-color 160ms ease,
+      color 160ms ease;
+  }
+}
+
+/* GPU hints. will-change keeps a texture alive for as long as it is set, so it is
+   only on while something actually moves. scroll.js puts .is-scrolling on <html>
+   during scroll and .is-live on the word groups that are in view. */
+.is-scrolling .hero-name,
+.is-scrolling .hero-figure,
+.is-scrolling [data-scrub] {
+  will-change: transform;
+}
+.js .swords.is-live .w {
+  will-change: opacity, transform, filter;
+}

@@ -1,0 +1,4 @@
+{
+  "compilerOptions": { "checkJs": true, "allowJs": true, "noEmit": true, "target": "es2022", "module": "es2022", "moduleResolution": "bundler", "lib": ["es2022", "dom", "dom.iterable"], "strict": false },
+  "include": ["js/**/*.js", "js/globals.d.ts"]
+}

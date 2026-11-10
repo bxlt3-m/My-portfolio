@@ -1,0 +1,17 @@
+/* Source entry point. The browser does NOT load this file: `npm run build:css` bundles it
+   into css/site.min.css (one request, breakpoints expanded) and that is what index.html links.
+   Edit the partials, rebuild, commit both.
+
+   Order matters: later files win when specificity is equal. Base first, then components,
+   motion last because it overrides reveal states. Each file keeps its own media queries at
+   the bottom, written with the names from base/breakpoints.css. */
+
+@import './base/breakpoints.css';
+@import './base/variables.css';
+@import './base/reset.css';
+@import './base/utilities.css';
+@import './components/header.css';
+@import './components/hero.css';
+@import './components/gallery.css';
+@import './components/sections.css';
+@import './base/motion.css';

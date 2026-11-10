@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://farah-mohamed-site.vercel.app/sitemap.xml
